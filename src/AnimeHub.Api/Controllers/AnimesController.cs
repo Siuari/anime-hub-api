@@ -4,13 +4,15 @@ using AnimeHub.Application.Animes.Commands.RemoverAnimes;
 using AnimeHub.Application.Animes.Dtos;
 using AnimeHub.Application.Animes.Queries.ListarAnimes;
 using AnimeHub.Application.Animes.Queries.ObterAnime;
+using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AnimeHub.Api.Controllers
 {
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
-    [Route("api/[controller]")]
+    [ApiVersion(1.0)]
     public class AnimesController : ControllerBase
     {
         private readonly IMediator _mediator;
