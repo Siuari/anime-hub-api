@@ -12,7 +12,8 @@ namespace AnimeHub.Application.Animes.Queries.ListarAnimes
             Skip = (filtro.Pagina - 1) * filtro.TamanhoPagina;
             Take = filtro.TamanhoPagina;
             Criteria = anime =>
-                (string.IsNullOrWhiteSpace(filtro.Nome) || anime.Nome.Contains(filtro.Nome)) 
+                (!filtro.Id.HasValue || anime.Id == filtro.Id.Value)
+                && (string.IsNullOrWhiteSpace(filtro.Nome) || anime.Nome.Contains(filtro.Nome))
                 && (string.IsNullOrWhiteSpace(filtro.Diretor) || anime.Diretor.Contains(filtro.Diretor));
         }
 

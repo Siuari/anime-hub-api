@@ -12,7 +12,7 @@ Log.Logger = new LoggerConfiguration()
 
 try
 {
-    Log.Information("starting server.");
+    Log.Information("Iniciando Aplicação");
     var builder = WebApplication.CreateBuilder(args);
 
     builder.Services
@@ -75,7 +75,7 @@ try
 }
 catch (Exception ex)
 {
-    Log.Fatal(ex, "Application start-up failed");
+    Log.Fatal(ex, "Inicialização da aplicação falhou");
 }
 finally
 {

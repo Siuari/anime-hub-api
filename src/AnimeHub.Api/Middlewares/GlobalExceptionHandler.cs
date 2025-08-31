@@ -21,7 +21,7 @@ namespace AnimeHub.Api.Middlewares
             }
             catch (AnimeHubValidationException ex)
             {
-                _logger.LogWarning(ex, "Validation error occurred.");
+                _logger.LogWarning(ex, "Ocorreram erros de validação.");
                 context.Response.StatusCode = 400;
                 context.Response.ContentType = "application/json";
                 var response = new
