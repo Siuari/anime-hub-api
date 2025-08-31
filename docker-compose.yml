@@ -1,0 +1,41 @@
+services:
+  sqlserver-db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: animehub-sql
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=senhaForte@2025
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    networks:
+      - home-network
+    healthcheck:
+      test: ["CMD", "/opt/mssql-tools18/bin/sqlcmd", "-Usa", "-PsenhaForte@2025", "-Q", "select 1", "-C"]
+      interval: 1s
+      retries: 5
+
+  animehub.api:
+    image: ${DOCKER_REGISTRY-}animehubapi
+    build:
+      context: .
+      dockerfile: src/AnimeHub.Api/Dockerfile
+      target: final
+    container_name: animehub-api
+    environment:
+      TZ: America/Sao_Paulo
+    ports:
+      - "8080:8080"
+    depends_on:
+      sqlserver-db:
+        condition: service_healthy
+    networks:
+      - home-network
+
+volumes:
+  sqlserver_data:
+
+networks:
+    home-network:
+        driver: bridge
