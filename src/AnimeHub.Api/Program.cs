@@ -1,7 +1,9 @@
 using AnimeHub.Api.Configurations;
 using AnimeHub.Api.Middlewares;
+using AnimeHub.Infra.Data.Context;
 using AnimeHub.Infra.IoC;
 using Asp.Versioning;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()
@@ -22,42 +24,25 @@ try
 
     builder.Services.AddControllers();
 
-    //builder.Services
-    //    .AddApiVersioning(options =>
-    //    {
-    //        options.AssumeDefaultVersionWhenUnspecified = true;
-    //        options.DefaultApiVersion = new ApiVersion(1, 0);
-    //        options.ReportApiVersions = true;
-    //    })
-    //    .AddMvc();
-
     builder.Services
-        .AddApiVersioning(                    options =>
+        .AddApiVersioning(options =>
         {
-            // reporting api versions will return the headers
-            // "api-supported-versions" and "api-deprecated-versions"
             options.ReportApiVersions = true;
-
-            options.Policies.Sunset(0.9)
-                            .Effective(DateTimeOffset.Now.AddDays(60))
-                            .Link("policy.html")
-                                .Title("Versioning Policy")
-                                .Type("text/html");
+            options.Policies
+                .Sunset(0.9)
+                .Effective(DateTimeOffset.Now.AddDays(60))
+                .Link("policy.html")
+                    .Title("Versioning Policy")
+                    .Type("text/html");
         })
         .AddMvc()
         .AddApiExplorer(
             options =>
             {
-                // add the versioned api explorer, which also adds IApiVersionDescriptionProvider service
-                // note: the specified format code will format the version as "'v'major[.minor][-status]"
                 options.GroupNameFormat = "'v'VVV";
-
-                // note: this option is only necessary when versioning by url segment. the SubstitutionFormat
-                // can also be used to control the format of the API version in route templates
                 options.SubstituteApiVersionInUrl = true;
             });
 
-    //builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
 
     builder.Services.RegisterServices();
@@ -72,8 +57,6 @@ try
     app.UseSwagger();
     app.UseSwaggerUI();
 
-    app.UseHttpsRedirection();
-
     app.UseAuthorization();
 
     app.UseSerilogRequestLogging();
@@ -81,6 +64,12 @@ try
     app.UseMiddleware<GlobalExceptionHandler>();
 
     app.MapControllers();
+
+    using (var scope = app.Services.CreateScope())
+    {
+        var db = scope.ServiceProvider.GetRequiredService<AnimeHubContext>();
+        db.Database.Migrate();
+    }
 
     app.Run();
 }
