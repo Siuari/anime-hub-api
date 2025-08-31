@@ -16,6 +16,9 @@ namespace AnimeHub.Application.Animes.Queries.ObterAnime
         {
             var anime = await _animeRepositorio.ObterPorIdAsync(request.Id, cancellationToken);
 
+            if (anime is null)
+                return default;
+
             return new(anime.Id, anime.Nome, anime.Diretor, anime.Resumo);
         }
     }

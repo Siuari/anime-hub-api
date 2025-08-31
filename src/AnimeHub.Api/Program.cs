@@ -5,6 +5,8 @@ using AnimeHub.Infra.IoC;
 using Asp.Versioning;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using Serilog.Templates;
+using Serilog.Templates.Themes;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -20,7 +22,10 @@ try
            .ReadFrom.Configuration(builder.Configuration)
            .ReadFrom.Services(services)
            .Enrich.FromLogContext()
-           .WriteTo.Console());
+           .WriteTo.File("Logs/log-.txt", rollingInterval: RollingInterval.Hour)
+           .WriteTo.Console(new ExpressionTemplate(
+                "[{@t:HH:mm:ss} {@l:u3}{#if @tr is not null} ({substring(@tr,0,4)}:{substring(@sp,0,4)}){#end}] {@m}\n{@x}",
+                theme: TemplateTheme.Code)));
 
     builder.Services.AddControllers();
 
