@@ -45,10 +45,13 @@ Ela expõe endpoints RESTful versionados, com suporte a containerização via Do
 
 ## Configuração via Docker
 
-Construa e suba os containers:
-  docker compose up --build
+### Construa e suba os containers:
+ 
+ `docker compose up --build`
 
-Acesse a API (Swagger UI): http://localhost:8080/swagger
+### Acesse a API (Swagger UI)
+
+`http://localhost:8080/swagger`
 
 ## Endpoints principais (v1)
 | Método | Rota                    | Descrição                                                    |
@@ -57,5 +60,5 @@ Acesse a API (Swagger UI): http://localhost:8080/swagger
 | GET    | `/api/v1/animes/{id}`   | Obtém um anime por ID.                                       |
 | GET    | `/api/v1/animes`        | Consulta por nome/diretor/ID combinados (suporta paginação). |
 | POST   | `/api/v1/animes`        | Cadastra um novo anime.                                      |
-| PUT    | `/api/v1/animes/{id}`   | Atualiza um anime existente.                                 |
+| PUT    | `/api/v1/animes`        | Atualiza um anime existente.                                 |
 | DELETE | `/api/v1/animes/{id}`   | Exclui um anime.                                             |
