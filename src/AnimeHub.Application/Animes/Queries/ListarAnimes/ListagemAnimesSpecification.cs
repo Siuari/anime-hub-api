@@ -13,8 +13,8 @@ namespace AnimeHub.Application.Animes.Queries.ListarAnimes
             Take = filtro.TamanhoPagina;
             Criteria = anime =>
                 (!filtro.Id.HasValue || anime.Id == filtro.Id.Value)
-                && (string.IsNullOrWhiteSpace(filtro.Nome) || anime.Nome.Contains(filtro.Nome))
-                && (string.IsNullOrWhiteSpace(filtro.Diretor) || anime.Diretor.Contains(filtro.Diretor));
+                && (string.IsNullOrWhiteSpace(filtro.Nome) || anime.Nome.ToUpper().Contains(filtro.Nome.ToUpper()))
+                && (string.IsNullOrWhiteSpace(filtro.Diretor) || anime.Diretor.ToUpper().Contains(filtro.Diretor.ToUpper()));
         }
 
         public Expression<Func<Anime, bool>> Criteria { get; }
