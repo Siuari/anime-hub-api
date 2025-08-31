@@ -15,13 +15,12 @@ namespace AnimeHub.Application.Animes.Commands.AtualizarAnimes
 
         public async Task<AtualizarAnimeResponse> Handle(AtualizarAnimeCommand request, CancellationToken cancellationToken)
         {
-            if (request is null)
-                throw new AnimeHubValidationException();
-
             var anime = await _animeRepositorio.ObterPorIdAsync(request.Id, cancellationToken);
 
             if (anime is null)
                 throw new AnimeHubValidationException($"Anime com ID {request.Id} não encontrado.");
+
+            anime.Atualizar(request.Nome, request.Diretor, request.Resumo);
 
             await _animeRepositorio.SaveChangesAsync(cancellationToken);
 
