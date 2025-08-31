@@ -31,17 +31,17 @@ Ela expõe endpoints RESTful versionados, com suporte a containerização via Do
 ---
 
 ## Arquitetura (Clean Architecture)
-AnimeHub/
-  src/
-    AnimeHub.Api/              -> Presentation (Controllers, DI, Versioning, Swagger)
-    AnimeHub.Application/      -> Use cases (MediatR, DTOs, Validators)
-    AnimeHub.Domain/           -> Entidades, ValueObjects, Exceptions de domínio
-    AnimeHub.Infrastructure/   -> EF Core, Repositórios, Migrations, Serilog config
-    AnimeHub.UnitTests/        -> xUnit para Handlers e Services
-  .editorconfig
-  .gitignore
-  README.md
-  docker-compose.yml
+- AnimeHub/
+  - src/
+    - AnimeHub.Api/              -> Presentation (Controllers, DI, Versioning, Swagger)
+    - AnimeHub.Application/      -> Use cases (MediatR, DTOs, Validators)
+    - AnimeHub.Domain/           -> Entidades, ValueObjects, Exceptions de domínio
+    - AnimeHub.Infrastructure/   -> EF Core, Repositórios, Migrations, Serilog config
+    - AnimeHub.UnitTests/        -> xUnit para Handlers e Services
+  - .editorconfig
+  - .gitignore
+  - README.md
+  - docker-compose.yml
 
 ## Configuração via Docker
 
